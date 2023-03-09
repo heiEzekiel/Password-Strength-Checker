@@ -27,7 +27,7 @@ body {
 
 .form-signin {
     width: 100%;
-    max-width: 330px;
+    max-width: 630px;
     padding: 15px;
     margin: auto;
 }
@@ -50,4 +50,10 @@ body {
     margin-bottom: 10px;
     border-top-left-radius: 0;
     border-top-right-radius: 0;
+}
+
+.content-wrapper {
+    border-radius: 0.5em;
+    box-shadow: 0.2em 0.2em 0 0 #b3b3b3;
+    background: #cfcfcf;
 }
