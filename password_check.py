@@ -6,6 +6,7 @@ import string
 from collections import Counter
 from password_strength import PasswordPolicy
 from password_strength import PasswordStats
+from zxcvbn import zxcvbn
 
 def password_check(password):
     #Password Strength Lib
@@ -33,7 +34,7 @@ def custom_password_req(password):
     response = requests.get(f"https://api.pwnedpasswords.com/range/{sha1_prefix}")
     if response.status_code != 200:
         return "Error: Could not check password against leaked passwords database."
-    
+  
     leaked_passwords = response.text.split("\r\n")
     for temp_password in leaked_passwords:
         if sha1_suffix in temp_password:
@@ -52,14 +53,15 @@ def custom_password_req(password):
     # repeated characters check
     # if len(set(password)) != len(password):
     #     return "Weak password: Password should not contain repeated characters."
-    
+
     # sequential characters check
-    sequences = ["123", "234", "345", "456", "567", "678", "789", "890",
-                 "qwerty", "asdfgh", "zxcvbn", "qazwsx", "edcrfv", "tgbnhy"]
-    
-    for sequence in sequences:
-        if sequence in password.lower():
-            return "Weak password: Password should not contain sequential characters."
+    result = zxcvbn(password)
+
+    if 'sequence' in result:
+        sequences = result['sequence']
+        for seq in sequences:
+            if seq['pattern'] == 'sequence':
+                return "Weak password: Password should not contain sequential characters."
     
     # character types check (cont.)
 
