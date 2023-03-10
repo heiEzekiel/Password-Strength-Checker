@@ -113,6 +113,61 @@ def markov_model_entropy(password, order):
     entropy = -sum(p * math.log2(p) for p in probs)
     return entropy * len(password)
 
+def password_suggestion(password):
+    result = zxcvbn(password)
+    warning = result["feedback"]["suggestions"]
+    return warning
+
+def get_password_strength(password):
+    strength = zxcvbn(password)['score']
+
+    # Map strength score to a password strength level
+    if strength == 0:
+        level = 'Very weak'
+    elif strength == 1:
+        level = 'Weak'
+    elif strength == 2:
+        level = 'Moderate'
+    elif strength == 3:
+        level = 'Strong'
+    else:
+        level = 'Very strong'
+
+    return {'level': level, 'score': strength}
+
+def get_crack_time(password):
+    result = zxcvbn(password)
+
+    # Get the estimated crack time
+    crack_time = result['crack_times_display']['offline_slow_hashing_1e4_per_second']
+
+    return crack_time
+
+def check_password_vulnerabilities(password):
+    # Use zxcvbn to check password vulnerabilities
+    result = zxcvbn(password)
+    isSusceptibleToAttacks = result['sequence'];
+    dictionaryWords = [];
+
+    if (len(isSusceptibleToAttacks) != 0):
+        for i in range(len(isSusceptibleToAttacks)):
+            if (isSusceptibleToAttacks[i]["pattern"]) == 'dictionary': 
+                dictionaryWords.append(isSusceptibleToAttacks[i]["token"]);
+            elif (isSusceptibleToAttacks[i]["pattern"]) == 'spatial':
+                return 'This password is susceptible to spatial attacks.'
+            elif (isSusceptibleToAttacks[i]["pattern"]) == 'date':
+                return 'This password is susceptible to date attacks.'
+            elif (isSusceptibleToAttacks[i]["pattern"]) == 'repeat':
+                return 'This password is susceptible to repeat attacks.'
+            elif (isSusceptibleToAttacks[i]["pattern"]) == 'sequence':
+                return 'This password is susceptible to sequence attacks.'
+            else:
+                return 'This password is susceptible to brute force attacks.'
+        if (len(dictionaryWords)!= 0):
+            unpacked = ", ".join(dictionaryWords)
+            return unpacked + ' in password entered' + ' is susceptible to dictionary attacks.'
+    else: 
+        return 'This password is not susceptible to attacks.'
 
 # password = str(input("Password: "))
 # print("Guessing Entropy:", guessing_entropy(password))
