@@ -51,7 +51,10 @@
         <br>
         <!-- Results from password check -->
         <div>
-            <p id="output">
+            <p id="output" />
+            <p>Guessing Entropy: <span id="guessingEntropy"></span></p>
+            <p>Shannon Entropy: <span id="shannonEntropy"></span></p>
+            <p>Markov Entropy: <span id="markovEntropy"></span></p>
             <div class="progress">
                 <div class="progress-bar" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
             </div>
@@ -78,6 +81,9 @@
 
     const inputBox = document.getElementById("floatingPassword");
     const outputBox = document.getElementById("output");
+    const guessingEntropyOutput = document.getElementById("guessingEntropy");
+    const shannonEntropyOutput = document.getElementById("shannonEntropy");
+    const markovEntropyOutput = document.getElementById("markovEntropy");
     inputBox.addEventListener("input", async function() {
         const password = inputBox.value;
         console.log(password);
@@ -92,7 +98,10 @@
         })
         .then((response) => response.json())
         .then((data) => {
-            outputBox.innerText = data["data"];
+            outputBox.innerText = data["passwordStrength"];
+            guessingEntropyOutput.innerText = data["guessingEntropy"];
+            shannonEntropyOutput.innerText = data["shannonEntropy"];
+            markovEntropyOutput.innerText = data["markovEntropy"];
             return data;
         })
         .catch((error) => {
