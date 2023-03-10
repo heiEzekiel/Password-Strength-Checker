@@ -26,6 +26,17 @@ def password_check(password):
     pass
 
 def custom_password_req(password):
+    # create empty object to capture values
+    pwd_details = {
+        "hasLowerCase": False,
+        "hasUpperCase": False,
+        "hasSpChar": False,
+        "hasNumber": False,
+        "hasMinLength": False,
+        "hasNotBeenLeaked": False,
+        "hasNoSeqChar": False,
+    }
+
     # leaked password check
     sha1_password = hashlib.sha1(password.encode()).hexdigest().upper()
     sha1_prefix = sha1_password[:5]
@@ -34,15 +45,15 @@ def custom_password_req(password):
     response = requests.get(f"https://api.pwnedpasswords.com/range/{sha1_prefix}")
     if response.status_code != 200:
         return "Error: Could not check password against leaked passwords database."
-  
+
     leaked_passwords = response.text.split("\r\n")
     for temp_password in leaked_passwords:
-        if sha1_suffix in temp_password:
-            return "Weak password: Password has been leaked and should not be used."
+        if sha1_suffix not in temp_password:
+            pwd_details['hasNotBeenLeaked'] = True
         
     # length check
-    if len(password) < 8:
-        return "Weak password: Password must be at least 8 characters long."
+    if len(password) >= 8:
+        pwd_details['hasMinLength'] = True
 
     # character types check
     has_lowercase = False
@@ -60,31 +71,22 @@ def custom_password_req(password):
     if 'sequence' in result:
         sequences = result['sequence']
         for seq in sequences:
-            if seq['pattern'] == 'sequence':
-                return "Weak password: Password should not contain sequential characters."
+            if seq['pattern'] != 'sequence':
+                pwd_details['hasNoSeqChar'] = True
     
     # character types check (cont.)
 
     for char in password:
         if char.islower():
-            has_lowercase = True
+            pwd_details['hasLowerCase'] = True
         elif char.isupper():
-            has_uppercase = True
+            pwd_details['hasUpperCase'] = True
         elif char.isdigit():
-            has_number = True
+            pwd_details['hasNumber'] = True
         else:
-            has_special = True
+            pwd_details['hasSpChar'] = True
     
-    if not has_lowercase:
-        return "Weak password: Password must contain at least one lowercase letter."
-    elif not has_uppercase:
-        return "Weak password: Password must contain at least one uppercase letter."
-    elif not has_number:
-        return "Weak password: Password must contain at least one number."
-    elif not has_special:
-        return "Weak password: Password must contain at least one special character."
-    
-    return "Strong password"
+    return pwd_details
 
 def guessing_entropy(password):
     # Count the number of possible characters

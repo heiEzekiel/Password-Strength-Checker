@@ -51,7 +51,6 @@
         <br>
         <!-- Results from password check -->
         <div>
-            <p id="output" />
             <p>Password Strength: <span id="passwordStrength"></span></p>
             <p>Password Crack Time: <span id="passwordCrackTime"></span></p>
             <p>Guessing Entropy: <span id="guessingEntropy"></span></p>
@@ -65,37 +64,37 @@
             <div
                 <div class="d-flex flex-row">
                     <div class="d-flex p-2 w-100">
-                        <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path fill="green" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path id="lower-char" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
                         one lowercase character
                     </div>
                     <div class="d-flex p-2 w-100">
-                        <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path fill="green" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path id="sp-char"  d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
                         one special character
                     </div>
                 </div>
                 <div class="d-flex flex-row">
                     <div class="d-flex p-2 w-100">
-                        <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path fill="green" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path id="upper-char" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
                         one uppercase letter
                     </div>
                     <div class="d-flex p-2 w-100">
-                        <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path fill="green" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path id="num-char" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
                         one number
                     </div>
                 </div>
                 <div class="d-flex flex-row">
                     <div class="d-flex p-2 w-100">
-                        <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path fill="green" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path id="eight-char" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
                         minimum 8 characters
                     </div>
                     <div class="d-flex p-2 w-100">
-                        <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path fill="green" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path id="seq-char" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
                         no sequential characters
                     </div>
                 </div>
                 <div class="d-flex flex-row">
                     <div class="d-flex p-2 w-100">
-                        <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path fill="green" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path id="leaked-pwd" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
                         password has not been leaked
                     </div>
                     <div class="d-flex p-2 w-100" />
@@ -122,7 +121,15 @@
 
 
     const inputBox = document.getElementById("floatingPassword");
-    const outputBox = document.getElementById("output");
+
+    const lowerCharStyle = document.getElementById("lower-char");
+    const spCharStyle = document.getElementById("sp-char");
+    const upperCharStyle = document.getElementById("upper-char");
+    const numCharStyle = document.getElementById("num-char");
+    const eightCharStyle = document.getElementById("eight-char");
+    const seqCharStyle = document.getElementById("seq-char");
+    const leakedPwdStyle = document.getElementById("leaked-pwd");
+
     const passwordStrengthOutput = document.getElementById("passwordStrength");
     const passwordCrackTimeOutput = document.getElementById("passwordCrackTime");
     const guessingEntropyOutput = document.getElementById("guessingEntropy");
@@ -144,7 +151,16 @@
         })
         .then((response) => response.json())
         .then((data) => {
-            outputBox.innerText = data["passwordDetails"];
+            console.log(data["passwordDetails"]);
+
+            lowerCharStyle.style.fill = data["passwordDetails"]["hasLowerCase"] ? 'green' : 'red';
+            spCharStyle.style.fill = data["passwordDetails"]["hasSpChar"] ? 'green' : 'red';
+            upperCharStyle.style.fill = data["passwordDetails"]["hasUpperCase"] ? 'green' : 'red';
+            numCharStyle.style.fill = data["passwordDetails"]["hasNumber"] ? 'green' : 'red';
+            eightCharStyle.style.fill = data["passwordDetails"]["hasMinLength"] ? 'green' : 'red';
+            seqCharStyle.style.fill = data["passwordDetails"]["hasNoSeqChar"] ? 'green' : 'red';
+            leakedPwdStyle.style.fill = data["passwordDetails"]["hasNotBeenLeaked"] ? 'green' : 'red';
+
             passwordStrengthOutput.innerText = data["passwordStrength"];
             passwordCrackTimeOutput.innerText = data["passwordCrackTime"];
             guessingEntropyOutput.innerText = data["guessingEntropy"];
