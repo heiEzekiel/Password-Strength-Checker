@@ -55,16 +55,6 @@ def custom_password_req(password):
     if len(password) >= 8:
         pwd_details['hasMinLength'] = True
 
-    # character types check
-    has_lowercase = False
-    has_uppercase = False
-    has_number = False
-    has_special = False
-    
-    # repeated characters check
-    # if len(set(password)) != len(password):
-    #     return "Weak password: Password should not contain repeated characters."
-
     # sequential characters check
     result = zxcvbn(password)
 
@@ -121,29 +111,19 @@ def password_suggestion(password):
     return warning
 
 def get_password_strength(password):
-    strength = zxcvbn(password)['score']
+    strength_checker = {
+        0: 'Very weak',
+        1: 'Weak',
+        2: 'Moderate',
+        3: 'Strong',
+        4: 'Very strong'
+    }
 
-    # Map strength score to a password strength level
-    if strength == 0:
-        level = 'Very weak'
-    elif strength == 1:
-        level = 'Weak'
-    elif strength == 2:
-        level = 'Moderate'
-    elif strength == 3:
-        level = 'Strong'
-    else:
-        level = 'Very strong'
-
-    return level
+    return strength_checker[zxcvbn(password)['score']]
 
 def get_crack_time(password):
-    result = zxcvbn(password)
-
-    # Get the estimated crack time
-    crack_time = result['crack_times_display']['offline_slow_hashing_1e4_per_second']
-
-    return crack_time
+    
+    return zxcvbn(password)['crack_times_display']['offline_slow_hashing_1e4_per_second']
 
 def check_password_vulnerabilities(password):
     # Use zxcvbn to check password vulnerabilities
@@ -170,10 +150,3 @@ def check_password_vulnerabilities(password):
             return unpacked + ' in password entered' + ' is susceptible to dictionary attacks.'
     else: 
         return 'Your password is not susceptible to attacks.'
-
-# password = str(input("Password: "))
-# print("Guessing Entropy:", guessing_entropy(password))
-# print("Shannon Entropy:", shannon_entropy(password))
-# print("Markov Model Entropy:", markov_model_entropy(password, 2))
-
-# print(custom_password_req(password))

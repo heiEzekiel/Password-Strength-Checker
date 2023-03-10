@@ -27,15 +27,6 @@
     <main class="form-signin">
         <form>
         <h1 class="h3 mb-3 fw-normal">Password Strength Checker</h1>
-        <!--
-        <div class="form-floating">
-            <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
-            <label for="floatingInput">Email address</label>
-            <div data-lastpass-icon-root="true"
-            style="position: relative !important; height: 0px !important; width: 0px !important; float: left !important;">
-            </div>
-        </div>
-        -->
         <div class="form-floating">
             <input type="password" class="form-control" id="floatingPassword" placeholder="Password">
             <label for="floatingPassword">Password</label>
@@ -50,59 +41,15 @@
 
         <!-- Results from password check -->
         <div>
-            <div id="very-weak-ui" style="display: none;">
+            <div>
                 <div class="d-flex flex-row justify-content-between">
                     <h3>Password Strength</h3>
-                    <h3 style="color: red">Very Weak 😩</h3>
+                    <h3 id="progress-bar-strength" style="color: red"></h3>
                 </div>
                 <div class="progress">
-                    <div class="progress-bar" role="progressbar" style="width: 20%; background-color: red" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                    <div id="progress-bar-filled" class="progress-bar" role="progressbar" style="width: 20%; background-color: red" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
                 </div>
-                <h4 style="text-align: left"><span id="passwordVulnerabilities"></span></h4>
-            </div>
-
-            <div id="weak-ui" style="display: none;">
-                <div class="d-flex flex-row justify-content-between">
-                    <h3>Password Strength</h3>
-                    <h3 style="color: #FF6962">Weak 😕</h3>
-                </div>
-                <div class="progress">
-                    <div class="progress-bar" role="progressbar" style="width: 40%; background-color: #FF6962;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                </div>
-                <h4 style="text-align: left"><span id="passwordVulnerabilities"></span></h4>
-            </div>
-
-            <div id="moderate-ui" style="display: none;">
-                <div class="d-flex flex-row justify-content-between">
-                    <h3>Password Strength</h3>
-                    <h3 style="color: #FFB3A5">Moderate 😐</h3>
-                </div>
-                <div class="progress">
-                    <div class="progress-bar" role="progressbar" style="width: 60%; background-color: #FFB3A5;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                </div>
-                <h4 style="text-align: left"><span id="passwordVulnerabilities"></span></h4>
-            </div>
-
-            <div id="strong-ui" style="display: none;">
-                <div class="d-flex flex-row justify-content-between">
-                    <h3>Password Strength</h3>
-                    <h3 style="color: #7ABD91">Strong 🙂</h3>
-                </div>
-                <div class="progress">
-                    <div class="progress-bar" role="progressbar" style="width: 80%; background-color: #7ABD91;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                </div>
-                <h4 style="text-align: left">Your password is good. But <span id="passwordVulnerabilities"></span></h4>
-            </div>
-
-            <div id="very-strong-ui" style="display: none;">
-                <div class="d-flex flex-row justify-content-between">
-                    <h3>Password Strength</h3>
-                    <h3 style="color: green">Very Strong 😎</h3>
-                </div>
-                <div class="progress">
-                    <div class="progress-bar" role="progressbar" style="width: 100%; background-color: green;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                </div>
-                <h4 style="text-align: left">Your password is great. Nice work!<span id="passwordVulnerabilities"></span></h4>
+                <h4 style="text-align: left"><span id="progress-bar-additional-msg"></span><span id="passwordVulnerabilities"></span></h4>
             </div>
 
             <h4 class="mb-3" style="text-align: left" id="passwordSuggestion"></h4>
@@ -111,7 +58,7 @@
                 <div class="d-flex flex-row">
                     <div class="d-flex p-1 mx-2 w-100">
                         <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path id="lower-char" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
-                        one lowercase character
+                        <span>one lowercase character</span>
                     </div>
                     <div class="d-flex p-1 mx-2 w-100">
                         <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path id="sp-char"  d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
@@ -182,11 +129,9 @@
     const seqCharStyle = document.getElementById("seq-char");
     const leakedPwdStyle = document.getElementById("leaked-pwd");
 
-    const veryWeakUi = document.getElementById("very-weak-ui");
-    const weakUi = document.getElementById("weak-ui");
-    const moderateUi = document.getElementById("moderate-ui");
-    const strongUi = document.getElementById("strong-ui");
-    const veryStrongUi = document.getElementById("very-strong-ui");
+    const progressBarStrength = document.getElementById("progress-bar-strength");
+    const progressBarFilled = document.getElementById("progress-bar-filled");
+    const progressBarAdditionalMsg = document.getElementById("progress-bar-additional-msg");
 
     const passwordCrackTimeOutput = document.getElementById("passwordCrackTime");
     const guessingEntropyOutput = document.getElementById("guessingEntropy");
@@ -215,11 +160,23 @@
             seqCharStyle.style.fill = data["passwordDetails"]["hasNoSeqChar"] ? 'green' : 'red';
             leakedPwdStyle.style.fill = data["passwordDetails"]["hasNotBeenLeaked"] ? 'green' : 'red';
 
-            veryWeakUi.style.display = data["passwordStrength"] == 'Very weak' ? 'block' : 'none';
-            weakUi.style.display = data["passwordStrength"] == 'Weak' ? 'block' : 'none';
-            moderateUi.style.display = data["passwordStrength"] == 'Moderate' ? 'block' : 'none';
-            strongUi.style.display = data["passwordStrength"] == 'Strong' ? 'block' : 'none';
-            veryStrongUi.style.display = data["passwordStrength"] == 'Very strong' ? 'block' : 'none';
+            var progressBarIndicators = {
+                'Very weak': 
+                    ['red', 'Very Weak 😩', '20%', ''],
+                'Weak': 
+                    ['#FF6962', 'Weak 😕', '40%', ''],
+                'Moderate': 
+                    ['#FFB3A5', 'Moderate 😐', '60%', ''],
+                'Strong': 
+                    ['#7ABD91', 'Strong 🙂', '80%', 'Your password is good. But '],
+                'Very strong': 
+                    ['green', 'Very strong 😎', '100%', 'Your password is great. Nice work! But '],
+            };
+            progressBarStrength.style.color = progressBarIndicators[data["passwordStrength"]][0];
+            progressBarStrength.innerText = progressBarIndicators[data["passwordStrength"]][1];
+            progressBarFilled.style.width = progressBarIndicators[data["passwordStrength"]][2];
+            progressBarFilled.style.backgroundColor = progressBarIndicators[data["passwordStrength"]][0];
+            progressBarAdditionalMsg.innerText = progressBarIndicators[data["passwordStrength"]][3];
 
             passwordCrackTimeOutput.innerText = "Estimated Time To Crack: " + data["passwordCrackTime"];
             guessingEntropyOutput.innerText = "Guessing Entropy: " + data["guessingEntropy"];

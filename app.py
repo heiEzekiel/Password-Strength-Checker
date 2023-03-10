@@ -13,25 +13,17 @@ def home():
 def custom_password():
     data = request.get_json(force=True)
     password = data["id_password"]
-    passwordDetails = custom_password_req(password)
-    guessingEntropy = guessing_entropy(password)
-    shannonEntropy = shannon_entropy(password)
-    markovEntropy = markov_model_entropy(password, 2)
-    passwordSuggestion = password_suggestion(password)
-    passwordStrength = get_password_strength(password)
-    passwordCrackTime = get_crack_time(password)
-    passwordVulnerabilities = check_password_vulnerabilities(password)
     return jsonify(
             {
                 "code": 201,
-                "passwordDetails": passwordDetails,
-                "guessingEntropy": guessingEntropy,
-                "shannonEntropy": shannonEntropy,
-                "markovEntropy": markovEntropy,
-                "passwordSuggestion": passwordSuggestion,
-                "passwordStrength": passwordStrength,
-                "passwordCrackTime": passwordCrackTime,
-                "passwordVulnerabilities": passwordVulnerabilities,
+                "passwordDetails": custom_password_req(password),
+                "guessingEntropy": guessing_entropy(password),
+                "shannonEntropy": shannon_entropy(password),
+                "markovEntropy": markov_model_entropy(password, 2),
+                "passwordSuggestion": password_suggestion(password),
+                "passwordStrength": get_password_strength(password),
+                "passwordCrackTime": get_crack_time(password),
+                "passwordVulnerabilities": check_password_vulnerabilities(password),
                 "message": "Success"
             }
     ), 201
