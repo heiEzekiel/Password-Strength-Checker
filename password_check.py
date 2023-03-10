@@ -135,7 +135,7 @@ def get_password_strength(password):
     else:
         level = 'Very strong'
 
-    return {'level': level, 'score': strength}
+    return level
 
 def get_crack_time(password):
     result = zxcvbn(password)

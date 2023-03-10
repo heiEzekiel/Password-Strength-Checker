@@ -18,7 +18,7 @@ def custom_password():
     shannonEntropy = shannon_entropy(password)
     markovEntropy = markov_model_entropy(password, 2)
     passwordSuggestion = password_suggestion(password)
-    passwordStrength = get_password_strength(password)["level"]
+    passwordStrength = get_password_strength(password)
     passwordCrackTime = get_crack_time(password)
     passwordVulnerabilities = check_password_vulnerabilities(password)
     return jsonify(
