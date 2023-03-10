@@ -46,12 +46,12 @@
     
         <div class="checkbox mb-3">
         </div>
-        <button class="w-100 btn btn-lg btn-primary" type="button" onclick="check_password()">Check</button>
         </form>
 
         <br>
         <!-- Results from password check -->
         <div>
+            <p id="output">
             <div class="progress">
                 <div class="progress-bar" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
             </div>
@@ -74,14 +74,13 @@
 <script>
     url = "http://127.0.0.1:5000";
     const custom_check = "custom_password";
-    
 
-    // password check using flask request using ajax and jquery
-    async function check_password() {
-        var password = document.getElementById("floatingPassword").value;
-        //password = "Password"
+
+    const inputBox = document.getElementById("floatingPassword");
+    const outputBox = document.getElementById("output");
+    inputBox.addEventListener("input", async function() {
+        const password = inputBox.value;
         console.log(password);
-        console.log(url+"/"+custom_check);
         await fetch(`${url}/${custom_check}`, {
             method: "POST",
             headers: {
@@ -93,7 +92,7 @@
         })
         .then((response) => response.json())
         .then((data) => {
-            console.log(data["data"]);
+            outputBox.innerText = data["data"];
             return data;
         })
         .catch((error) => {
@@ -101,7 +100,7 @@
             // service offline, etc
             console.log(error);
         });
-    }
+    })
 
 
 
