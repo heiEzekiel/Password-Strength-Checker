@@ -140,7 +140,11 @@
     const passwordSuggestionOutput = document.getElementById("passwordSuggestion");
     const passwordVulnerabilitiesOutput = document.getElementById("passwordVulnerabilities");
     inputBox.addEventListener("input", async function() {
-        const password = inputBox.value;
+        var password = inputBox.value;
+        if (password.length == 0) {
+            password = ' '
+        }
+        console.log(password);
         await fetch(`${url}/${custom_check}`, {
             method: "POST",
             headers: {
@@ -152,6 +156,7 @@
         })
         .then((response) => response.json())
         .then((data) => {
+            console.log(data["passwordDetails"]);
             lowerCharStyle.style.fill = data["passwordDetails"]["hasLowerCase"] ? 'green' : 'red';
             spCharStyle.style.fill = data["passwordDetails"]["hasSpChar"] ? 'green' : 'red';
             upperCharStyle.style.fill = data["passwordDetails"]["hasUpperCase"] ? 'green' : 'red';

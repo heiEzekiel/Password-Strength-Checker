@@ -37,6 +37,9 @@ def custom_password_req(password):
         "hasNoSeqChar": False,
     }
 
+    if password == ' ':
+        return pwd_details
+
     # leaked password check
     sha1_password = hashlib.sha1(password.encode()).hexdigest().upper()
     sha1_prefix = sha1_password[:5]
