@@ -50,9 +50,14 @@ def custom_password_req(password):
         return "Error: Could not check password against leaked passwords database."
 
     leaked_passwords = response.text.split("\r\n")
+    leaked_passwords_list = []
     for temp_password in leaked_passwords:
-        if sha1_suffix not in temp_password:
-            pwd_details['hasNotBeenLeaked'] = True
+        leaked_passwords_list.append(str(temp_password.split(":")[0]))
+    
+    if sha1_suffix not in leaked_passwords_list:
+        pwd_details['hasNotBeenLeaked'] = True
+    else:
+        pwd_details['hasNotBeenLeaked'] = False
         
     # length check
     if len(password) >= 8:
@@ -125,8 +130,7 @@ def get_password_strength(password):
     return strength_checker[zxcvbn(password)['score']]
 
 def get_crack_time(password):
-    
-    return zxcvbn(password)['crack_times_display']['offline_slow_hashing_1e4_per_second']
+    return str(zxcvbn(password)['crack_times_display']['offline_slow_hashing_1e4_per_second']).capitalize()
 
 def check_password_vulnerabilities(password):
     # Use zxcvbn to check password vulnerabilities

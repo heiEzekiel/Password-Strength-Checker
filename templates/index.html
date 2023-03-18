@@ -43,7 +43,7 @@
         <div>
             <div>
                 <div class="d-flex flex-row justify-content-between">
-                    <h3>Password Strength</h3>
+                    <h3>Password Strength:</h3>
                     <h3 id="progress-bar-strength" style="color: red"></h3>
                 </div>
                 <div class="progress">
@@ -93,7 +93,7 @@
                     <div class="d-flex p-1 w-100" />
                 </div>
         </div>
-        <div class="content-wrapper p-4" style="text-align: left;">
+        <div id="detailsBox" class="content-wrapper p-4" style="text-align: left; block">
             <h5 id="passwordCrackTime"></h5>
             <h5 id="guessingEntropy"></h5>
             <h5 id="shannonEntropy"></h5>
@@ -117,7 +117,7 @@
 <script>
     url = "http://127.0.0.1:5000";
     const custom_check = "custom_password";
-
+    document.getElementById("detailsBox").style.display = "none";
 
     const inputBox = document.getElementById("floatingPassword");
 
@@ -142,7 +142,33 @@
     inputBox.addEventListener("input", async function() {
         var password = inputBox.value;
         if (password.length == 0) {
+            document.getElementById("progress-bar-strength").style.display = "none";
+            document.getElementById("passwordCrackTime").style.display = "none";
+            document.getElementById("guessingEntropy").style.display = "none";
+            document.getElementById("shannonEntropy").style.display = "none";
+            document.getElementById("markovEntropy").style.display = "none";
+            document.getElementById("passwordVulnerabilities").style.display = "none";
+            document.getElementById("passwordSuggestion").style.display = "none";
+            document.getElementById("detailsBox").style.display = "none";
+
+            document.getElementById("lower-char").style.fill = "";
+            document.getElementById("sp-char").style.fill = "";
+            document.getElementById("upper-char").style.fill = "";
+            document.getElementById("num-char").style.fill = "";
+            document.getElementById("eight-char").style.fill = "";
+            document.getElementById("seq-char").style.fill = "";
+            document.getElementById("leaked-pwd").style.fill = "";
             password = ' '
+        }
+        else {
+            document.getElementById("progress-bar-strength").style.display = "block";
+            document.getElementById("passwordCrackTime").style.display = "block";
+            document.getElementById("guessingEntropy").style.display = "block";
+            document.getElementById("shannonEntropy").style.display = "block";
+            document.getElementById("markovEntropy").style.display = "block";
+            document.getElementById("passwordVulnerabilities").style.display = "block";
+            document.getElementById("passwordSuggestion").style.display = "block";
+            document.getElementById("detailsBox").style.display = "block";
         }
         console.log(password);
         await fetch(`${url}/${custom_check}`, {
@@ -164,7 +190,6 @@
             eightCharStyle.style.fill = data["passwordDetails"]["hasMinLength"] ? 'green' : 'red';
             seqCharStyle.style.fill = data["passwordDetails"]["hasNoSeqChar"] ? 'green' : 'red';
             leakedPwdStyle.style.fill = data["passwordDetails"]["hasNotBeenLeaked"] ? 'green' : 'red';
-
             var progressBarIndicators = {
                 'Very weak': 
                     ['red', 'Very Weak 😩', '20%', ''],
@@ -173,9 +198,9 @@
                 'Moderate': 
                     ['#FFB3A5', 'Moderate 😐', '60%', ''],
                 'Strong': 
-                    ['#7ABD91', 'Strong 🙂', '80%', 'Your password is good. But '],
+                    ['#7ABD91', 'Strong 🙂', '80%', 'Your password is good. But... '],
                 'Very strong': 
-                    ['green', 'Very strong 😎', '100%', 'Your password is great. Nice work! But '],
+                    ['green', 'Very strong 😎', '100%', 'Your password is great. Nice work! But... '],
             };
             progressBarStrength.style.color = progressBarIndicators[data["passwordStrength"]][0];
             progressBarStrength.innerText = progressBarIndicators[data["passwordStrength"]][1];
